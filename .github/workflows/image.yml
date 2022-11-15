@@ -16,14 +16,6 @@ jobs:
         id: checkout
         uses: actions/checkout@v3
 
-      - name: Set current branch name
-        id: get-branch-name
-        shell: bash
-        run: |
-          echo "branch_name=${GITHUB_BASE_REF#/refs/heads/}" >> $GITHUB_OUTPUT
-        env:
-          GITHUB_BASE_REF: ${{ github.event.base_ref }}
-
       - name: Set up QEMU
         id: setup-qemu
         uses: docker/setup-qemu-action@v2
@@ -38,16 +30,23 @@ jobs:
         with:
           yc-sa-json-credentials: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
 
+      - name: Get current branch name
+        id: get-branch-name
+        shell: bash
+        run: |
+          echo "branch_name=${BASE_REF##*/}" >> $GITHUB_OUTPUT
+        env:
+          BASE_REF: ${{ github.event.base_ref }}
+
       - name: Build and push staging or prod
         id: build-and-push-stable
         if: github.ref_name != 'dev'
         uses: docker/build-push-action@v3
         with:
           push: true
-          #cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
-          #cache-to: type=inline
-          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ github.ref_name }}
-          #, cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
+          cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
+          cache-to: type=inline
+          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ github.ref_name }},cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
 
       - name: Build and push dev
         id: build-and-push-dev
@@ -55,10 +54,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          #cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:dev-cache
-          #cache-to: type=inline
-          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:dev.${{ github.sha }}
-          #, cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
+          cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:dev-cache
+          cache-to: type=inline
+          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:dev.${{ github.sha }},cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:dev-cache
 
       - name: notify to slack
         id: notify-to-slack
