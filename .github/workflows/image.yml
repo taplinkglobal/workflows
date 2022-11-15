@@ -38,20 +38,20 @@ jobs:
         with:
           yc-sa-json-credentials: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
 
-      - name: Build and push staging or prod
-        id: build-and-push-stable
-        if: github.ref_name != 'dev'
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          #cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
-          #cache-to: type=inline
-          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ github.ref_name }}
-          #, cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
+#      - name: Build and push staging or prod
+#        id: build-and-push-stable
+#        if: github.ref_name != 'dev'
+#        uses: docker/build-push-action@v3
+#        with:
+#          push: true
+#          #cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
+#          #cache-to: type=inline
+#          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ github.ref_name }}
+#          #, cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
 
       - name: Build and push dev
         id: build-and-push-dev
-        if: github.ref_name == 'dev'
+        if: github.ref_name == 'add-kubebernetes-config'
         uses: docker/build-push-action@v3
         with:
           push: true
