@@ -49,7 +49,7 @@ jobs:
       env:
         KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG }}
         VERSION: ${{ needs.set-version.set-version.outputs.VERSION }}
-        ENVIRONMENT: ${{ needs.set-version.set-version.outputs.ENVIRONMENT }}
+        ENVIRONMENT: ${{ needs.set-version.steps.set-version.outputs.ENVIRONMENT }}
         SERVICE: ${{ inputs.service }}
     steps:
     - name: Checkout
