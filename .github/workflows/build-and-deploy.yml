@@ -47,7 +47,7 @@ jobs:
         fi
 
   build:
-    name: Build and push ${{ needs.set-version.outputs.environment }} image to registry
+    name: Build and push ${{ needs.set-version.outputs.environment }} image
     runs-on: ubuntu-latest
     needs: set-version
     env:
