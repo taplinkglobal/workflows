@@ -51,7 +51,7 @@ jobs:
 
       - name: Build and push dev
         id: build-and-push-dev
-        if: github.ref_name == 'add-kubebernetes-config'
+        if: github.ref_name == 'add-kubernetes-config'
         uses: docker/build-push-action@v3
         with:
           push: true
