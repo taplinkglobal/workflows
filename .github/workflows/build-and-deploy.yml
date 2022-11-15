@@ -52,7 +52,6 @@ jobs:
     needs: set-version
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      VERSION: ${{ needs.set-version.outputs.version }}
     steps:
       - name: Checkout
         id: checkout
@@ -79,7 +78,7 @@ jobs:
           push: true
           #cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:dev-cache
           #cache-to: type=inline
-          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:$VERSION
+          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.version }}
           #, cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
 
       - name: notify to slack
