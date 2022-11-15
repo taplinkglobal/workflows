@@ -62,6 +62,6 @@ jobs:
         id: notify-to-slack
         uses: act10ns/slack@master
         with:
-          status: ${{ job.status }}
+          status: ${{ job.status }} on ${{ inputs.service }}
           steps: ${{ toJson(steps) }}
         if: always()
