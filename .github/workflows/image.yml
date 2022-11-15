@@ -40,7 +40,7 @@ jobs:
 
       - name: Build and push staging or prod
         id: build-and-push-stable
-        if: github.ref_name != 'test-build'
+        if: github.ref_name != 'dev'
         uses: docker/build-push-action@v3
         with:
 #          push: true
@@ -51,7 +51,7 @@ jobs:
 
       - name: Build and push dev
         id: build-and-push-dev
-        if: github.ref_name == 'test-build'
+        if: github.ref_name == 'dev'
         uses: docker/build-push-action@v3
         with:
 #          push: true
