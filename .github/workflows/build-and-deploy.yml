@@ -95,6 +95,7 @@ jobs:
     needs:
     - build
     - set-version
+    concurrency: ${{ needs.set-version.outputs.environment }}
     container:
       image: alpine/helm:3.10.1
       env:
