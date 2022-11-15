@@ -92,7 +92,9 @@ jobs:
   deploy-helm:
     name: Deploy helm
     runs-on: ubuntu-latest
-    needs: build
+    needs:
+    - build
+    - set-version
     container:
       image: alpine/helm:3.10.1
       env:
