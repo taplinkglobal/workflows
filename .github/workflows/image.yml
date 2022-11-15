@@ -44,10 +44,10 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          #cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/{{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
+          #cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
           #cache-to: type=inline
-          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/{{ inputs.service }}:${{ github.ref_name }}
-          #, cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/{{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
+          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ github.ref_name }}
+          #, cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
 
       - name: Build and push dev
         id: build-and-push-dev
@@ -55,10 +55,10 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          #cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/{{ inputs.service }}:dev-cache
+          #cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:dev-cache
           #cache-to: type=inline
-          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/{{ inputs.service }}:dev.${{ github.sha }}
-          #, cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/{{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
+          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:dev.${{ github.sha }}
+          #, cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
 
       - name: notify to slack
         id: notify-to-slack
