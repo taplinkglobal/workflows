@@ -76,10 +76,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          #cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:dev-cache
-          #cache-to: type=inline
-          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.version }}
-          #, cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ steps.get-branch-name.outputs.branch_name }}-cache
+          cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.environment }}-cache
+          cache-to: type=inline
+          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.version }},cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.environment }}-cache
 
       - name: notify to slack
         id: notify-to-slack
