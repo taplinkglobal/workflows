@@ -33,7 +33,7 @@ jobs:
           echo ENVIRONMENT=staging >> $GITHUB_OUTPUT
 
         elif [[ $GITHUB_REF_TYPE == tag && $GITHUB_REF_NAME =~ ^[0-9]+\.[0-9]+\.[0-9]$ ]]; then
-          git branch --contains $GITHUB_SHA | grep main
+          git branch --contains $GITHUB_SHA | grep -E 'main|master'
           if [ $? -ne 0 ]; then
             echo "Release tag must be set only for commit in main branch!"
             exit 1
