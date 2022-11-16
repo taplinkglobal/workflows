@@ -19,7 +19,7 @@ jobs:
     - name: Set version
       id: set-version
       run: |
-        if [[ $GITHUB_REF_TYPE == branch && $GITHUB_REF_NAME == add-kubernetes-config ]]; then
+        if [[ $GITHUB_REF_TYPE == branch && $GITHUB_REF_NAME == dev ]]; then
           echo VERSION=0.0.0-dev.$GITHUB_SHA >> $GITHUB_OUTPUT
           echo ENVIRONMENT=dev >> $GITHUB_OUTPUT
 
