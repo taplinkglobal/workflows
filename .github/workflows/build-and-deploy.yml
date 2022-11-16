@@ -95,6 +95,8 @@ jobs:
     - build
     - set-version
     concurrency: ${{ needs.set-version.outputs.environment }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     container:
       image: alpine/helm:3.10.1
       env:
@@ -118,3 +120,11 @@ jobs:
         --values helm/$ENVIRONMENT-values.yaml
         --namespace onelink-$ENVIRONMENT
         --kubeconfig temp-kubeconfig
+
+    - name: notify to slack
+      id: notify-to-slack
+      uses: act10ns/slack@master
+      with:
+        status: ${{ job.status }}
+        steps: ${{ toJson(steps) }}
+      if: always()
