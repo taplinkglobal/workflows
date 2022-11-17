@@ -79,6 +79,8 @@ jobs:
           cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.environment }}-cache
           cache-to: type=inline
           tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.version }},cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.environment }}-cache
+        build-args: |
+          ENVIRONMENT=${{ needs.set-version.outputs.environment }}
 
       - name: notify to slack
         id: notify-to-slack
