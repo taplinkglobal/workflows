@@ -23,8 +23,8 @@ jobs:
           echo VERSION=0.0.0-dev.$GITHUB_SHA >> $GITHUB_OUTPUT
           echo ENVIRONMENT=dev >> $GITHUB_OUTPUT
 
-        elif [[ $GITHUB_REF_TYPE == tag && $GITHUB_REF_NAME =~ [0-9]+\.[0-9]+\.[0-9]-staging ]]; then
-          git branch --contains $GITHUB_SHA | grep staging
+        elif [[ $GITHUB_REF_TYPE == tag && $GITHUB_REF_NAME =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-staging(\.[0-9]+)?)$ ]]; then
+          git branch -a --contains $GITHUB_SHA | grep -E 'remotes/origin/staging$'
           if [ $? -ne 0 ]; then
             echo "Tag contains \"staging\" must be set only for commit in staging branch!"
             exit 1
@@ -32,8 +32,8 @@ jobs:
           echo VERSION=$GITHUB_REF_NAME  >> $GITHUB_OUTPUT
           echo ENVIRONMENT=staging >> $GITHUB_OUTPUT
 
-        elif [[ $GITHUB_REF_TYPE == tag && $GITHUB_REF_NAME =~ ^[0-9]+\.[0-9]+\.[0-9]$ ]]; then
-          git branch --contains $GITHUB_SHA | grep -E 'main|master'
+        elif [[ $GITHUB_REF_TYPE == tag && $GITHUB_REF_NAME =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+          git branch -a --contains $GITHUB_SHA | grep -E 'remotes/origin/(main|master)$'
           if [ $? -ne 0 ]; then
             echo "Release tag must be set only for commit in main branch!"
             exit 1
