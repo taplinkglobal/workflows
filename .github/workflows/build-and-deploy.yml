@@ -84,7 +84,7 @@ jobs:
         build-args: |
           ENVIRONMENT=${{ needs.set-version.outputs.environment }}
 
-    - name: notify to slack
+    - name: Notify to slack
       id: notify-to-slack
       uses: act10ns/slack@master
       with:
@@ -125,7 +125,7 @@ jobs:
         --namespace onelink-$ENVIRONMENT
         --kubeconfig temp-kubeconfig
 
-    - name: notify to slack
+    - name: Notify to slack
       id: notify-to-slack
       uses: act10ns/slack@master
       with:
