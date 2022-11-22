@@ -76,9 +76,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.environment }}-cache
+          cache-from: type=registry,ref=cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.environment }}-latest
           cache-to: type=inline
-          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.version }},cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.environment }}-cache
+          tags: cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.version }},cr.yandex/${{ secrets.DOCKER_REGISTRY_ID }}/${{ inputs.service }}:${{ needs.set-version.outputs.environment }}-latest
           build-args: |
             ENVIRONMENT=${{ needs.set-version.outputs.environment }}
 
